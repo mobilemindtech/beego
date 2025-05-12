@@ -13,7 +13,7 @@ require (
 	github.com/elazarl/go-bindata-assetfs v1.0.1
 	github.com/go-kit/kit v0.13.0
 	github.com/go-kit/log v0.2.1
-	github.com/go-sql-driver/mysql v1.8.1
+	github.com/go-sql-driver/mysql v1.9.2
 	github.com/gogo/protobuf v1.3.2
 	github.com/gomodule/redigo v2.0.0+incompatible
 	github.com/google/uuid v1.6.0
@@ -32,10 +32,10 @@ require (
 	github.com/stretchr/testify v1.9.0
 	github.com/valyala/bytebufferpool v1.0.0
 	go.etcd.io/etcd/client/v3 v3.5.9
-	go.opentelemetry.io/otel v1.11.2
+	go.opentelemetry.io/otel v1.27.0
 	go.opentelemetry.io/otel/exporters/stdout/stdouttrace v1.11.2
 	go.opentelemetry.io/otel/sdk v1.11.2
-	go.opentelemetry.io/otel/trace v1.11.2
+	go.opentelemetry.io/otel/trace v1.27.0
 	golang.org/x/crypto v0.24.0
 	golang.org/x/sync v0.7.0
 	google.golang.org/grpc v1.63.0
