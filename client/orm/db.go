@@ -183,8 +183,14 @@ func (d *dbBase) collectFieldValue(mi *models.ModelInfo, fi *models.FieldInfo, i
 					d.ins.TimeToDB(&t, tz)
 					if t.IsZero() {
 						value = nil
-					} else {
-						value = t
+					} else {						
+						switch fi.FieldType {
+						case TypeTimeField:
+							value = t.Format(time.TimeOnly)				
+							break
+						default:
+							value = t
+						}						
 					}
 				}
 			default:

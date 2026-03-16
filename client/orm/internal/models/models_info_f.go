@@ -268,7 +268,7 @@ checkType:
 		if fieldType == TypeDateTimeField && tags["type"] == "date" {
 			fieldType = TypeDateField
 		}
-		if fieldType == TypeTimeField && tags["type"] == "time" {
+		if fieldType == TypeDateTimeField && tags["type"] == "time" {
 			fieldType = TypeTimeField
 		}
 	}
