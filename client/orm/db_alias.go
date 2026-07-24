@@ -431,6 +431,10 @@ func SetMaxOpenConns(aliasName string, maxOpenConns int) {
 	al.SetMaxOpenConns(maxOpenConns)
 }
 
+func SetConnMaxLifetime(aliasName string, maxLifeTime time.Duration) {
+	al := getDbAlias(aliasName)
+	al.SetConnMaxLifetime(maxLifeTime)
+}
 // SetMaxIdleConns Change the max idle conns for *sql.DB, use specify database alias name
 func (al *alias) SetMaxIdleConns(maxIdleConns int) {
 	al.MaxIdleConns = maxIdleConns
