@@ -50,6 +50,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"regexp"
 )
 
 // Configer defines how to get and set value from configuration raw data.
@@ -272,6 +273,7 @@ func ExpandValueEnvForMap(m map[string]interface{}) map[string]interface{} {
 //	v1 := config.ExpandValueEnv("${GOPATH}")			// return the GOPATH environment variable.
 //	v2 := config.ExpandValueEnv("${GOAsta||/usr/local/go}")	// return the default value "/usr/local/go/".
 //	v3 := config.ExpandValueEnv("Astaxie")				// return the value "Astaxie".
+/*
 func ExpandValueEnv(value string) (realValue string) {
 	realValue = value
 
@@ -305,6 +307,52 @@ func ExpandValueEnv(value string) (realValue string) {
 	}
 
 	return
+}*/
+
+func ExpandValueEnv(value string) string {
+	re := regexp.MustCompile(`\${([^}|]+)(?:\|\|([^}]*))?}`)
+	
+	result := strings.Builder{}
+	result.Grow(len(value))
+	
+	lastIndex := 0
+	matches := re.FindAllStringIndex(value, -1)
+	
+	for _, matchIndices := range matches {
+		// Append the text before the match
+		result.WriteString(value[lastIndex:matchIndices[0]])
+		
+		// Get the full match
+		match := value[matchIndices[0]:matchIndices[1]]
+		
+		// Extract variable name and default value
+		inner := match[2 : len(match)-1]
+		var varName, defaultValue string
+		
+		if idx := strings.Index(inner, "||"); idx != -1 {
+			varName = inner[:idx]
+			defaultValue = inner[idx+2:]
+		} else {
+			varName = inner
+		}
+		
+		// Get environment variable
+		envValue := os.Getenv(varName)
+		
+		// Use default if environment variable is empty and default is provided
+		if envValue == "" && defaultValue != "" {
+			result.WriteString(defaultValue)
+		} else {
+			result.WriteString(envValue)
+		}
+		
+		lastIndex = matchIndices[1]
+	}
+	
+	// Append remaining text
+	result.WriteString(value[lastIndex:])
+	
+	return result.String()
 }
 
 // ParseBool returns the boolean value represented by the string.
